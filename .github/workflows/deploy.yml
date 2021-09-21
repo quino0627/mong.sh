@@ -1,0 +1,44 @@
+name: deploy to s3
+
+on:
+  push:
+    branches : [ master ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Chekout to master
+        uses: actions/checkout@master
+
+      - name: Setup Node.js v16, npm 7
+        uses: actions/setup-node@v2.4.0
+        with:
+          node-version: '16.2.0'
+
+      - name: Cache Node Modules
+        uses: actions/cache@v2.1.6
+        id: node-cache
+        with:
+          path: node_modules
+          key: ${{ runner.OS }}-build-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.OS }}-build-
+            ${{ runner.OS }}-
+            
+      - name: Install dependencies
+        if: steps.node-cache.outputs.cache-hit != 'true'
+        run: npm ci
+        
+      - name: Gatsby Build
+        run: npm run build
+        
+      - name: Deploy to s3
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_ACCESS_SECRET_KEY }}
+        run: |
+          aws s3 cp \
+            --recursive \
+            --region ap-northeast-2 \
+            public s3://mong
