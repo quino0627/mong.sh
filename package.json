@@ -16,7 +16,24 @@
     "typecheck": "tsc --noEmit",
     "lint": "eslint 'src/**/*.{js,jsx,ts,tsx}'",
     "lint:fix": "eslint --fix 'src/**/*.{js,jsx,ts,tsx}'",
-    "prettier": "prettier --write --config ./.prettierrc './src/**/*.{ts,tsx}'"
+    "prettier": "prettier --write --config ./.prettierrc './src/**/*.{ts,tsx}'",
+    "prepare": "husky install",
+    "pre-commit:msg": "echo ' > Preheating the oven...' && exit 0",
+    "pre-commit:lint-staged": "lint-staged",
+    "pre-commit:checks": "pre-commit:lint-staged typecheck"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  },
+  "lint-staged": {
+    "src/**/*.js": [
+      "eslint"
+    ],
+    "src/**/*.ts?(x)": [
+      "eslint"
+    ]
   },
   "dependencies": {
     "@emotion/react": "^11.10.4",
@@ -51,13 +68,11 @@
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-react": "^7.31.8",
     "eslint-plugin-react-hooks": "^4.6.0",
+    "husky": "^8.0.1",
+    "lint-staged": "^13.0.3",
+    "npm-run-all": "^4.1.5",
     "prettier": "^2.7.1",
     "semantic-release": "^19.0.5",
     "typescript": "^4.8.2"
-  },
-  "config": {
-    "commitizen": {
-      "path": "./node_modules/cz-conventional-changelog"
-    }
   }
 }

@@ -12,8 +12,21 @@
     "project": "./tsconfig.json"
   },
   "rules": {
+    "no-console": "error",
     "no-use-before-define": "off",
     "@typescript-eslint/no-use-before-define": ["error"],
-    "react/jsx-filename-extension": ["warn", {"extensions":[".tsx"]}]
+    "react/jsx-filename-extension": ["warn", {"extensions":[".tsx"]}],
+    "prettier/prettier": [
+      "error",
+      {
+        "singleQuote": true,
+        "parser": "typescript",
+        "semi": true,
+        "useTabs": false,
+        "tabWidth": 2,
+        "printWidth": 120,
+        "trailingComma": "all",
+      }
+    ]
   }
 }
