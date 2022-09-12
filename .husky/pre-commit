@@ -1,0 +1,6 @@
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+
+npm run pre-commit:msg
+npx lint-staged
+npm run typecheck
